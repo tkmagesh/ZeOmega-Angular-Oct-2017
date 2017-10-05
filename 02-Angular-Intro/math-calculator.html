@@ -3,17 +3,41 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Math Calculator</title>
+	<script>
+		function MathCalculator(){
+			this.number1 = 0;
+			this.number2 = 0;
+			this.result = 0;
+		}
+		MathCalculator.prototype.add = function() {
+			this.result = this.number1 + this.number2
+		};
+	</script>
 </head>
 <body>
 	<h1>Math Calculator</h1>
-	<hr>
-	<input type="number">
-	<input type="number">
-	<br>
-	<input type="button" value="Add">
-	<input type="button" value="Subtract">
-	<input type="button" value="Multiply">
-	<input type="button" value="Divide">
-	<div>[Result]</div>
+	<div>
+		<hr>
+		<input type="number">
+		<input type="number">
+		<br>
+		<input type="button" value="Add">
+		<input type="button" value="Subtract">
+		<input type="button" value="Multiply">
+		<input type="button" value="Divide">
+		<div>[Result]</div>
+	</div>
+	<div>
+		<input type="number">
+		<select>
+			<option value="add">Add</option>
+			<option value="subtract">Subtract</option>
+			<option value="multiply">Multiply</option>
+			<option value="divide">Divide</option>
+		</select>
+		<input type="number">
+		<input type="button" value="Calculate">
+		<div>[Result]</div>
+	</div>
 </body>
 </html>
