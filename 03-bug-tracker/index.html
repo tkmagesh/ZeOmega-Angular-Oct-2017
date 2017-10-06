@@ -48,6 +48,23 @@
 		(done) 7. Search for the bugs
 		(done) 8. Improvise the bug display
 		9. Persist the bugs in the localStorage
+			window.localStorage
+			===================
+				- key/value store
+				- both key and value must be strings
+				- use angular.toJson and angular.fromJson for serialization and deserialization respecteively
+				- Follows Same Origin Policy
+				
+				- APIs
+				------
+					* setItem(key, value)
+					* getItem(key) //=> value
+					* removeItem(key)
+					* key(index) //=> key at index
+					* clear()
+					* length
+
+
 		10. Display 'createdAt' for each bug
 		11. Persist the bugs in the server
 		12. Make the bugs accessible using unique urls
@@ -111,18 +128,8 @@
 			
 			$scope.bugsList = bugsList;
 
-			bugsList.addNew('Server communication failure');
-			bugsList.addNew('Data validation error');
-			bugsList.addNew('User actions not recogized');
-			bugsList.addNew('Application is not responsive');
 
-			$scope.getClosedCount = function(){
-				var closedCount = 0;
-				for(var index=0, count = bugsList.bugs.length; index < count; index++)
-					if (bugsList.bugs[index].isClosed)
-						++closedCount;
-				return closedCount;
-			};
+			
 		});
 
 		bugTrackerApp.value('defaultTrimLength', 30);
@@ -132,6 +139,16 @@
 				trimLength = trimLength || 30;
 				return data.length <= trimLength ? data : data.substr(0,trimLength) + '...';
 			}
+		});
+
+		bugTrackerApp.filter('closedCount', function(){
+			return function(bugs){
+				var closedCount = 0;
+				for(var index=0, count = bugs.length; index < count; index++)
+					if (bugs[index].isClosed)
+						++closedCount;
+				return closedCount;
+			}
 		})
 	</script>
 </head>
@@ -140,7 +157,7 @@
 	<hr>
 	<div class="content" ng-controller="bugsController">
 		<section class="stats">
-			<span class="closed">{{getClosedCount()}}</span>
+			<span class="closed">{{bugsList.bugs | closedCount}}</span>
 			<span> / </span>
 			<span>{{bugsList.bugs.length}}</span>
 		</section>
