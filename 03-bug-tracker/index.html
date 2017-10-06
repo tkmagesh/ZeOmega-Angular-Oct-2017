@@ -52,15 +52,29 @@
 		11. Persist the bugs in the server
 		12. Make the bugs accessible using unique urls
 	</script>
+	<script src="angular.js"></script>
+	<script>
+		var bugTrackerApp = angular.module('bugTracker', []);
+		bugTrackerApp.controller('bugsController', function($scope){
+			$scope.bugs = [];
+			$scope.onAddNew = function(bugName){
+				var newBug = {
+					name : bugName,
+					isClosed : false
+				};
+				$scope.bugs.push(newBug);
+			}
+		});
+	</script>
 </head>
-<body>
+<body ng-app="bugTracker">
 	<h1>Bug Tracker</h1>
 	<hr>
-	<div class="content">
+	<div class="content" ng-controller="bugsController">
 		<section class="stats">
 			<span class="closed">2</span>
 			<span> / </span>
-			<span>5</span>
+			<span>{{bugs.length}}</span>
 		</section>
 		<section class="search">
 			<label for="">Search :</label>
@@ -79,17 +93,14 @@
 		</section>
 		<section class="edit">
 			<label for="">Bug Name :</label>
-			<input type="text" name="" id="">
-			<input type="button" value="Create New">
+			<input type="text" ng-model="newBugName">
+			<input type="button" value="Create New" ng-click="onAddNew(newBugName)">
 		</section>
 		<section class="list">
 			<ol>
-				<li>
-					<span class="bugname closed">[This is bug - 1]</span>
-					<div class="datetime">[Created At]</div>
-				</li>
-				<li>
-					<span class="bugname">[This is bug - 2]</span>
+				<li ng-repeat="bug in bugs track by $index">
+					<span class="bugname">{{bug.name}}</span>
+					<div>{{bug.isClosed}}</div>
 					<div class="datetime">[Created At]</div>
 				</li>
 			</ol>
@@ -98,3 +109,9 @@
 	</div>
 </body>
 </html>
+
+
+
+
+
+
