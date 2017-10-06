@@ -63,6 +63,16 @@
 					isClosed : false
 				};
 				$scope.bugs.push(newBug);
+			};
+
+			$scope.toggle = function(bug){
+				bug.isClosed = !bug.isClosed;
+			};
+
+			$scope.removeClosed = function(){
+				for(var index=$scope.bugs.length-1; index >= 0; index--)
+					if ($scope.bugs[index].isClosed)
+						$scope.bugs.splice(index, 1);
 			}
 		});
 	</script>
@@ -99,12 +109,13 @@
 		<section class="list">
 			<ol>
 				<li ng-repeat="bug in bugs track by $index">
-					<span class="bugname">{{bug.name}}</span>
+					<span class="bugname" ng-click="toggle(bug)" 
+						ng-class="{closed : bug.isClosed}">{{bug.name}}</span>
 					<div>{{bug.isClosed}}</div>
 					<div class="datetime">[Created At]</div>
 				</li>
 			</ol>
-			<input type="button" value="Remove Closed">
+			<input type="button" value="Remove Closed" ng-click="removeClosed()">
 		</section>
 	</div>
 </body>
