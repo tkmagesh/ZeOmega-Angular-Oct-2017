@@ -39,13 +39,13 @@
 		}
 	</style>
 	<script type="text/usecases">
-		1. Add new bug
-		2. List the bugs
-		3. Toggle the 'closed' status of a bug
-		4. Remove closed bugs
-		5. Display stats
+		(done) 1. Add new bug
+		(done) 2. List the bugs
+		(done) 3. Toggle the 'closed' status of a bug
+		(done) 4. Remove closed bugs
+		(done) 5. Display stats
 		6. Sort the bugs
-		7. Search for the bugs
+		(done) 7. Search for the bugs
 		8. Improvise the bug display
 		9. Persist the bugs in the localStorage
 		10. Display 'createdAt' for each bug
@@ -111,6 +111,11 @@
 			
 			$scope.bugsList = bugsList;
 
+			bugsList.addNew('Server communication failure');
+			bugsList.addNew('Data validation error');
+			bugsList.addNew('User actions not recogized');
+			bugsList.addNew('Application is not responsive');
+
 			$scope.getClosedCount = function(){
 				var closedCount = 0;
 				for(var index=0, count = bugsList.bugs.length; index < count; index++)
@@ -132,9 +137,10 @@
 		</section>
 		<section class="search">
 			<label for="">Search :</label>
-			<input type="text" name="" id="">
+			<input type="text" ng-model="searchBug.name">
 			<label for="">Closed ? :</label>
-			<input type="checkbox" name="" id="">
+			<input type="checkbox" ng-model="searchBug.isClosed">
+			<input type="button" value="Show All" ng-init="searchBug.isClosed = ''" ng-show="searchBug.isClosed !== ''" ng-click="searchBug.isClosed=''">
 		</section>
 		<section class="sort">
 			<label for="">Order By :</label>
@@ -152,7 +158,7 @@
 		</section>
 		<section class="list">
 			<ol>
-				<li ng-repeat="bug in bugsList.bugs track by $index">
+				<li ng-repeat="bug in (bugsList.bugs | filter:searchBug) ">
 					<span class="bugname" ng-click="bugsList.toggle(bug)" 
 						ng-class="{closed : bug.isClosed}">{{bug.name}}</span>
 					<div>{{bug.isClosed}}</div>
