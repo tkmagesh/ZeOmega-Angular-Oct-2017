@@ -67,22 +67,44 @@
 			}
 		});
 
-		bugTrackerApp.factory('bugsList', function(bugOperations){
-			return {
-				bugs : [],
-				addNew : function(bugName){
-					var newBug = bugOperations.createNew(bugName);
-					this.bugs.push(newBug);
-				},
-				removeClosed : function(){
-					for(var index=this.bugs.length-1; index >= 0; index--)
-						if (this.bugs[index].isClosed)
-							this.bugs.splice(index, 1);
-				},
-				toggle : function(bug){
-					bugOperations.toggle(bug);
-				}
+		/*bugTrackerApp.factory('bugsList', function(bugOperations){
+			var bugs = [];
+			function addNew(bugName){
+				var newBug = bugOperations.createNew(bugName);
+				bugs.push(newBug);
 			}
+			function removeClosed(){
+				for(var index=bugs.length-1; index >= 0; index--)
+					if (bugs[index].isClosed)
+						bugs.splice(index, 1);
+			}
+			function toggle(bug){
+				bugOperations.toggle(bug);
+			}
+
+			return {
+				bugs : bugs,
+				addNew : addNew,
+				removeClosed : removeClosed,
+				toggle : toggle
+			};
+		});*/
+
+		bugTrackerApp.service('bugsList', function(bugOperations){
+			this.bugs = [];
+			this.addNew = function addNew(bugName){
+				var newBug = bugOperations.createNew(bugName);
+				this.bugs.push(newBug);
+			};
+			this.removeClosed = function removeClosed(){
+				for(var index=this.bugs.length-1; index >= 0; index--)
+					if (this.bugs[index].isClosed)
+						this.bugs.splice(index, 1);
+			};
+			this.toggle = function toggle(bug){
+				bugOperations.toggle(bug);
+			};
+
 		});
 
 		bugTrackerApp.controller('bugsController', function($scope, bugsList){
