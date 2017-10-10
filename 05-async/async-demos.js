@@ -12,19 +12,21 @@ var pgm = (function(){
 		console.log('[@addSyncClient] result = ', result);
 	}
 
-	function addAsync(x,y){
+	function addAsync(x,y, onResult){
 		console.log('	[@addAsync] processing ', x , ' and ', y);
 		setTimeout(function(){
 			var result = x + y;
 			console.log('	[@addAsync] returning result');
-			return result;
+			if (typeof onResult === 'function')
+				onResult(result);
 		}, 4000); 
 	}
 
 	function addAsyncClient(x,y){
 		console.log('[@addAsyncClient] triggering addAsync');
-		var result = addAsync(x,y);
-		console.log('[@addAsyncClient] result = ', result);
+		addAsync(x,y, function(result){
+			console.log('[@addAsyncClient] result = ', result);
+		});
 	}
 
 	return {
