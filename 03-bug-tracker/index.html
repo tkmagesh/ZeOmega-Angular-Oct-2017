@@ -38,6 +38,7 @@
 			font-style: italic;
 		}
 	</style>
+
 	<script type="text/usecases">
 		(done) 1. Add new bug
 		(done) 2. List the bugs
@@ -65,19 +66,23 @@
 							* length
 
 
-		10. Display 'createdAt' for each bug
+		(done) 10. Display 'createdAt' for each bug
 		11. Persist the bugs in the server
 		12. Make the bugs accessible using unique urls
 	</script>
 	<script src="angular.js"></script>
+	<script src="moment.js"></script>
+	<script src="utils.js"></script>
 	<script>
-		var bugTrackerApp = angular.module('bugTracker', []);
+
+		var bugTrackerApp = angular.module('bugTracker', ['utils']);
 		bugTrackerApp.value('bugOperations' , {
 			createNew : function(id, bugName){
 				return {
 					id : id,
 					name : bugName,
-					isClosed : false
+					isClosed : false,
+					createdAt : new Date()
 				}
 			},
 			toggle : function(bug){
@@ -178,18 +183,9 @@
 			
 			$scope.bugsList = bugsList;
 
-
-			
 		});
 
-		bugTrackerApp.value('defaultTrimLength', 30);
-
-		bugTrackerApp.filter('trimText', function(defaultTrimLength){
-			return function(data, trimLength){
-				trimLength = trimLength || 30;
-				return data.length <= trimLength ? data : data.substr(0,trimLength) + '...';
-			}
-		});
+		
 
 		bugTrackerApp.filter('closedCount', function(){
 			return function(bugs){
@@ -199,7 +195,9 @@
 						++closedCount;
 				return closedCount;
 			}
-		})
+		});
+
+		
 	</script>
 </head>
 <body ng-app="bugTracker">
@@ -237,7 +235,7 @@
 				<li ng-repeat="bug in (bugsList.bugs | filter:searchBug | orderBy:sortBugBy:sortBugDescending) ">
 					<span class="bugname" ng-click="bugsList.toggle(bug)" 
 						ng-class="{closed : bug.isClosed}">{{bug.name | trimText:40}}</span>
-					<div class="datetime">[Created At]</div>
+					<div class="datetime">{{bug.createdAt | elapsed}}</div>
 				</li>
 			</ol>
 			<input type="button" value="Remove Closed" ng-click="bugsList.removeClosed()">

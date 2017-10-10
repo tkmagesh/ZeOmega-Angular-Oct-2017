@@ -1,0 +1,32 @@
+{
+  "bugs": [
+    {
+      "id": 2,
+      "name": "User actions not recognized",
+      "isClosed": false,
+      "createdAt": "Sat Sep 16 2017 10:03:57 GMT+0530 (IST)"
+    },
+    {
+      "id": 3,
+      "name": "Application is not responsive",
+      "isClosed": false,
+      "createdAt": "Sat Sep 16 2017 10:08:21 GMT+0530 (IST)"
+    },
+    {
+      "id": 4,
+      "name": "Data integrity checks failed",
+      "isClosed": false,
+      "createdAt": "Sat Sep 16 2017 11:25:47 GMT+0530 (IST)"
+    }
+  ],
+  "projects": [
+    {
+      "id": "P102",
+      "name": "Bug Tracker"
+    },
+    {
+      "id": "P101",
+      "name": "Payroll Management"
+    }
+  ]
+}
