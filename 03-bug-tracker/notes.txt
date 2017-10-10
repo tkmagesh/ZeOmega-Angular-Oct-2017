@@ -1,0 +1,27 @@
+//Get all the bugs
+
+$http.get('http://localhost:3000/bugs')
+	.then(function(response){
+		response.data -> list of bugs
+	})
+
+//get one bug
+$http.get('http://localhost:3000/bugs/id')
+
+//adding a new bug
+var newBug = {....}
+$http.post('http://localhost:3000/bugs', newBug)
+	.then(function(response){
+		response.data -> newly created bug from the server
+	})
+
+//updating an existing bug
+$http.put('http://localhost:3000/bugs/bugid', updatedbug)
+	.then(function(response){
+		response.data -> updated bug from the server
+	})
+
+//deleting a bug
+$http.delete('http://localhost:3000/bugs/bugid')
+
+

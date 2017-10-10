@@ -29,8 +29,29 @@ var pgm = (function(){
 		});
 	}
 
+	function addAsyncPromise(x,y){
+		console.log('	[@addAsync] processing ', x , ' and ', y);
+
+		var p = new Promise(function(resolveFn, rejectFn){
+			setTimeout(function(){
+				var result = x + y;
+				console.log('	[@addAsync] returning result');
+				resolveFn(result);
+			}, 4000); 
+		});
+
+		return p;
+	}
+
 	return {
 		addSyncClient : addSyncClient,
-		addAsyncClient : addAsyncClient
+		addAsyncClient : addAsyncClient,
+		addAsyncPromise : addAsyncPromise
 	};
 })();
+
+
+
+
+
+
