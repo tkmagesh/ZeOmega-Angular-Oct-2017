@@ -47,22 +47,22 @@
 		(done) 6. Sort the bugs
 		(done) 7. Search for the bugs
 		(done) 8. Improvise the bug display
-		9. Persist the bugs in the localStorage
-			window.localStorage
-			===================
-				- key/value store
-				- both key and value must be strings
-				- use angular.toJson and angular.fromJson for serialization and deserialization respecteively
-				- Follows Same Origin Policy
-				
-				- APIs
-				------
-					* setItem(key, value)
-					* getItem(key) //=> value
-					* removeItem(key)
-					* key(index) //=> key at index
-					* clear()
-					* length
+		(done) 9. Persist the bugs in the localStorage
+					window.localStorage
+					===================
+						- key/value store
+						- both key and value must be strings
+						- use angular.toJson and angular.fromJson for serialization and deserialization respecteively
+						- Follows Same Origin Policy
+						
+						- APIs
+						------
+							* setItem(key, value)
+							* getItem(key) //=> value
+							* removeItem(key)
+							* key(index) //=> key at index
+							* clear()
+							* length
 
 
 		10. Display 'createdAt' for each bug
@@ -73,8 +73,9 @@
 	<script>
 		var bugTrackerApp = angular.module('bugTracker', []);
 		bugTrackerApp.value('bugOperations' , {
-			createNew : function(bugName){
+			createNew : function(id, bugName){
 				return {
+					id : id,
 					name : bugName,
 					isClosed : false
 				}
@@ -107,19 +108,68 @@
 			};
 		});*/
 
-		bugTrackerApp.service('bugsList', function(bugOperations){
-			this.bugs = [];
+		bugTrackerApp.factory('bugStorage', function(bugOperations){
+			var storage = window.localStorage;
+			var currentBugId = 0;
+
+			function getAll(){
+				var result = [];
+				for(var index=0; index < storage.length; index++){
+					var rawData = storage.getItem(storage.key(index));
+					var bug = angular.fromJson(rawData);
+					currentBugId = currentBugId > bug.id ? currentBugId : bug.id;
+					result.push(bug);
+				}
+				return result;
+			}
+
+			function addNew(bugName){
+				var newBug = bugOperations.createNew(++currentBugId , bugName);
+				save(newBug);
+				return newBug;
+			}
+
+			function save(bug){
+				storage.setItem(bug.id, angular.toJson(bug));
+			}
+
+			function remove(bug){
+				storage.removeItem(bug.id);
+			}
+
+			function toggle(bug){
+				bugOperations.toggle(bug);
+				save(bug);
+			}
+
+			return {
+				getAll : getAll,
+				addNew : addNew,
+				save : save,
+				remove : remove,
+				toggle : toggle
+			};
+
+		});
+
+		bugTrackerApp.service('bugsList', function(bugStorage){
+			
+			this.bugs = bugStorage.getAll();
+			
 			this.addNew = function addNew(bugName){
-				var newBug = bugOperations.createNew(bugName);
+				var newBug = bugStorage.addNew(bugName);
 				this.bugs.push(newBug);
 			};
+			
 			this.removeClosed = function removeClosed(){
 				for(var index=this.bugs.length-1; index >= 0; index--)
-					if (this.bugs[index].isClosed)
+					if (this.bugs[index].isClosed){
+						bugStorage.remove(this.bugs[index]);
 						this.bugs.splice(index, 1);
+					}
 			};
 			this.toggle = function toggle(bug){
-				bugOperations.toggle(bug);
+				bugStorage.toggle(bug);
 			};
 
 		});
