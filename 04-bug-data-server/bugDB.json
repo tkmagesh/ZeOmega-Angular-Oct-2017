@@ -1,28 +1,22 @@
 {
   "bugs": [
     {
-      "id": 2,
-      "name": "User actions not recognized",
-      "isClosed": false,
-      "createdAt": "Sat Sep 16 2017 10:03:57 GMT+0530 (IST)"
-    },
-    {
-      "id": 3,
-      "name": "Application is not responsive",
-      "isClosed": false,
-      "createdAt": "Sat Sep 16 2017 10:08:21 GMT+0530 (IST)"
-    },
-    {
       "id": 4,
       "name": "Data integrity checks failed",
       "isClosed": false,
       "createdAt": "Sat Sep 16 2017 11:25:47 GMT+0530 (IST)"
     },
     {
-      "id": 5,
-      "name": "Test bug",
+      "id": 7,
+      "name": "Test 4",
       "isClosed": false,
-      "createdAt": "2017-10-10T11:49:00.473Z"
+      "createdAt": "2017-10-11T10:28:09.697Z"
+    },
+    {
+      "id": 9,
+      "name": "Test 1",
+      "isClosed": false,
+      "createdAt": "2017-10-11T10:29:27.340Z"
     }
   ],
   "projects": [
